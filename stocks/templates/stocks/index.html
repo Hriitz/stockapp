@@ -1,0 +1,70 @@
+<!-- stocks/templates/stocks/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock App</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<h1>Stock Data</h1>
+
+<form id="stockForm">
+    {% csrf_token %}
+    <label for="symbol">Enter Stock Symbol:</label>
+    <input type="text" id="symbol" name="symbol" required>
+    <button type="button" onclick="getStockData()">Get Data</button>
+</form>
+
+<div style="margin-top: 20px;">
+    <canvas id="chart" width="400" height="200"></canvas>
+</div>
+
+<script>
+    function getStockData() {
+        var symbol = $('#symbol').val();
+        $.ajax({
+            type: 'POST',
+            url: '/get_stock_data/',
+            data: {
+                'symbol': symbol,
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+            },
+            dataType: 'json',
+            success: function (data) {
+                console.log('Received data:', data);
+
+                var ctx = document.getElementById('chart').getContext('2d');
+                var existingChart = Chart.getChart(ctx);
+
+                if (existingChart) {
+                    existingChart.destroy();
+                }
+
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.date,
+                        datasets: [{
+                            label: 'Stock Closing Price',
+                            data: data.close,
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1,
+                            fill: false,
+                        }]
+                    }
+                });
+            },
+            error: function (error) {
+                console.error('Error fetching stock data:', error);
+            }
+        });
+    }
+</script>
+
+
+</body>
+</html>
