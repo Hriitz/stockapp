@@ -32,7 +32,7 @@ This is a simple Django web application that fetches historical stock data for a
 
 3. Enter a stock symbol in the form and click "Get Data."
 
-4 .The web application will fetch historical stock data for the last 3 months and display it on the graph.   
+4. The web application will fetch historical stock data for the last 3 months and display it on the graph.   
 
 
 
