@@ -1,4 +1,3 @@
-# stocks/views.py
 import yfinance as yf
 from django.http import JsonResponse
 from django.shortcuts import render
