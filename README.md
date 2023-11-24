@@ -6,7 +6,7 @@ This is a simple Django web application that fetches historical stock data for a
 
 - python 3.6 or higher
 - pip
-- Virtualenv (optional but recommended)
+- virtualenv (optional but recommended)
 
 ## Installation
 
